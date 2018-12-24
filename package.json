@@ -1,0 +1,24 @@
+{
+  "name": "pi-gpio",
+  "version": "1.0.0",
+  "description": "Raspberry PI Node GPIO demo",
+  "main": "index.js",
+  "dependencies": {
+    "onoff": "3.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaliweh/node-pi-gpio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaliweh/node-pi-gpio/issues"
+  },
+  "homepage": "https://github.com/kaliweh/node-pi-gpio#readme"
+}

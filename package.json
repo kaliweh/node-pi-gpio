@@ -4,7 +4,8 @@
   "description": "Raspberry PI Node GPIO demo",
   "main": "index.js",
   "dependencies": {
-    "onoff": "3.2.2"
+    "onoff": "3.2.2",
+    "pi-camera": "1.2.1"
   },
   "devDependencies": {},
   "scripts": {

@@ -10,7 +10,7 @@ pir.watch(async (err, value) => {
         let imgName = '';
         let img = '';
         for (let i = 0; i < 5; i++) {
-            imgName = `cap-${Date.now()}-${i}.jpeg`;
+            imgName = `cap-${Date.now()}.jpeg`;
             try {
                 img = await cam.takeImage();
             } catch (err) {
@@ -22,7 +22,7 @@ pir.watch(async (err, value) => {
                     console.log('connection error... image will be lost!:', error);
                 }
                 else {
-                    console.log('took image', imgName);
+                    console.log('uploaded image', result.name);
                 }
             });
         }

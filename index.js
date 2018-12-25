@@ -23,6 +23,7 @@ pir.watch(async (err, value) => {
                 }
                 else {
                     console.log('uploaded image', result.name);
+                    return response;
                 }
             });
         }

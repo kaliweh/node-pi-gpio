@@ -4,8 +4,10 @@
   "description": "Raspberry PI Node GPIO demo",
   "main": "index.js",
   "dependencies": {
+    "awssdk": "^1.0.1",
     "onoff": "3.2.2",
-    "pi-camera": "1.2.1"
+    "pi-camera": "1.2.1",
+    "pi-camera-connect": "^0.2.0"
   },
   "devDependencies": {},
   "scripts": {

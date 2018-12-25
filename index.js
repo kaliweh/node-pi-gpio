@@ -1,5 +1,5 @@
 const StillCamera = require('pi-camera-connect').StillCamera;
-const cam = new StillCamera();
+const cam = new StillCamera({width:800,height:600});
 const storage = require('azure-storage');
 const blobService = storage.createBlobService();
 const Gpio = require('onoff').Gpio; // Gpio class
@@ -9,7 +9,7 @@ pir.watch(async (err, value) => {
     if (value == 1) {
         let imgName = '';
         let img = '';
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             imgName = `cap-${Date.now()}.jpeg`;
             try {
                 img = await cam.takeImage();

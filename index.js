@@ -16,6 +16,6 @@ pir.watch(async(err, value)=> {
             console.log('took image', i);
         }
     } else {
-        sendMessage('sensor is 0');
+        console.log('sensor is 0');
     }
 });

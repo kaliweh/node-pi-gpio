@@ -14,7 +14,7 @@ pir.watch(async(err, value)=> {
             img = await cam.takeImage();
             blobService.createBlockBlobFromText('sink-images',imgName,img,function(error, result, response) {
                 if (!error) {
-                  console.log('connection lost... image will be lost!');
+                  console.log('connection error... image will be lost!:', error);
                 }
                 else{
                     console.log('took image', i);

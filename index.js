@@ -5,24 +5,28 @@ const blobService = storage.createBlobService();
 const Gpio = require('onoff').Gpio; // Gpio class
 const pir = new Gpio(17, 'in', 'both');    // Export GPIO17 as both
 
-pir.watch(async(err, value)=> {
+pir.watch(async (err, value) => {
     if (value == 1) {
         let imgName = '';
         let img = '';
-        for(let i=0; i<5;i++){
-            imgName = `cap-${Date.now()}.jpeg`;
-            img = await cam.takeImage();
-            blobService.createBlockBlobFromText('sink-images',imgName,img,function(error, result, response) {
-                if (error!=null) {
-                  console.log('connection error... image will be lost!:', error);
+        for (let i = 0; i < 5; i++) {
+            imgName = `cap-${Date.now()}-${i}.jpeg`;
+            try {
+                img = await cam.takeImage();
+            } catch (err) {
+                console.log('error occured while taking an image.', err);
+                continue;
+            }
+            blobService.createBlockBlobFromText('sink-images', imgName, img, function (error, result, response) {
+                if (error != null) {
+                    console.log('connection error... image will be lost!:', error);
                 }
-                else{
+                else {
                     console.log('took image', imgName);
                 }
             });
-            
         }
     } else {
-        console.log('sensor is 0');
+        console.log('pir is 0');
     }
 });

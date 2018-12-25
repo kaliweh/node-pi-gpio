@@ -1,23 +1,22 @@
 const StillCamera = require('pi-camera-connect').StillCamera;
 const cam = new StillCamera();
+const storage = require('azure-storage');
+const blobService = storage.createBlobService();
 const Gpio = require('onoff').Gpio; // Gpio class
 const pir = new Gpio(17, 'in', 'both');    // Export GPIO17 as both
- 
- 
-pir.watch(function(err, value) {
+
+
+pir.watch(function (err, value) {
     if (value == 1) {
-
-
-        console.log('sensor 1');
+        let imgName = '';
+        let img = '';
+        for(let i=0; i<5;i++){
+            imgName = `${__dirname}/img/cap-${Date.now()}.jpeg`;
+            img = await cam.takeImage();
+            blobService.createBlockBlobFromText('sink-images',imgName,img);
+            console.log('took image', i);
+        }
     } else {
-        sendMessage('sensor 0');
+        sendMessage('sensor is 0');
     }
 });
-
-
-// Stop blinking the LED and turn it off after 5 seconds
-setTimeout(() => {
-  clearInterval(iv); // Stop blinking
-  led.writeSync(0);  // Turn LED off
-  led.unexport();    // Unexport GPIO and free resources
-}, 5000);

@@ -12,8 +12,15 @@ pir.watch(async(err, value)=> {
         for(let i=0; i<5;i++){
             imgName = `cap-${Date.now()}.jpeg`;
             img = await cam.takeImage();
-            blobService.createBlockBlobFromText('sink-images',imgName,img);
-            console.log('took image', i);
+            blobService.createBlockBlobFromText('sink-images',imgName,img,function(error, result, response) {
+                if (!error) {
+                  console.log('connection lost... image will be lost!');
+                }
+                else{
+                    console.log('took image', i);
+                }
+            });
+            
         }
     } else {
         console.log('sensor is 0');

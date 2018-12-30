@@ -19,7 +19,10 @@ const uploadImage = (img, imgName) => {
     });
 };
 
-const captureEventImage = (count) => {
+let count = 0;
+
+const captureEventImage = ()=> {
+    console.log('captureEventImage called with count '+ count);
     if (count > MAX_EVENT_CAPTURE_COUNT) {
         return;
     }
@@ -28,9 +31,10 @@ const captureEventImage = (count) => {
         console.log('I am starting to upload an image');
         uploadImage(img, imgName);
     }).then((res) => {
-        console.log('I think I am done uploading', res);
-        captureEventImage(count++);
-    }).catch(err => { console.log('error occured while taking an image.', err); })
+        console.log('I think I am done uploading '+ res);
+        count++
+        captureEventImage();
+    }).catch(err => { console.log('error occured while taking an image. '+ err); })
 
 };
 
@@ -39,7 +43,8 @@ const captureEventImage = (count) => {
 pir.watch((err, value) => {
     if (value == 1) {
      //   let imgName = '';
-        captureEventImage(0);
+    count = 0;
+    captureEventImage();
 
         // for (let i = 0; i < 3; i++) {
         //     imgName = `cap-${Date.now()}.jpeg`;

@@ -8,7 +8,8 @@ const MAX_EVENT_CAPTURE_COUNT = 2;
 
 
 const uploadImage = (img, imgName) => {
-    blobService.createBlockBlobFromText('sink-images', imgName, img, function (error, result, response) {
+
+    return blobService.createBlockBlobFromText('sink-images', imgName, img, function (error, result, response) {
         if (error != null) {
             console.log('connection error... image will be lost!:', error);
         }
@@ -21,8 +22,8 @@ const uploadImage = (img, imgName) => {
 
 let count = 0;
 
-const captureEventImage = ()=> {
-    console.log('captureEventImage called with count '+ count);
+const captureEventImage = () => {
+    console.log('captureEventImage called with count ' + count);
     if (count > MAX_EVENT_CAPTURE_COUNT) {
         return;
     }
@@ -30,11 +31,11 @@ const captureEventImage = ()=> {
     cam.takeImage().then((img) => {
         console.log('I am starting to upload an image');
         uploadImage(img, imgName).then((res) => {
-            console.log('I think I am done uploading '+ res);
+            console.log('I think I am done uploading ' + res);
             count++
             captureEventImage();
-        }).catch(err => { console.log('error occured while uploading the image. ! '+ err); });
-    }).catch(err => { console.log('error occured while taking an image. '+ err); })
+        }).catch(err => { console.log('error occured while uploading the image. ! ' + err); });
+    }).catch(err => { console.log('error occured while taking an image. ' + err); })
 
 };
 
@@ -42,9 +43,9 @@ const captureEventImage = ()=> {
 
 pir.watch((err, value) => {
     if (value == 1) {
-     //   let imgName = '';
-    count = 0;
-    captureEventImage();
+        //   let imgName = '';
+        count = 0;
+        captureEventImage();
 
         // for (let i = 0; i < 3; i++) {
         //     imgName = `cap-${Date.now()}.jpeg`;
@@ -59,7 +60,7 @@ pir.watch((err, value) => {
         //     //     continue;
         //     // }
 
-      //  }
+        //  }
     } else {
         console.log('pir is 0');
     }

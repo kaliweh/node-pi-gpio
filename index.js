@@ -9,12 +9,14 @@ const MAX_EVENT_CAPTURE_COUNT = 2;
 
 const uploadImage = (img, imgName) => {
 
-    return blobService.createBlockBlobFromText('sink-images', imgName, img, function (error, result, response) {
+    blobService.createBlockBlobFromText('sink-images', imgName, img, function (error, result, response) {
         if (error != null) {
             console.log('connection error... image will be lost!:', error);
         }
         else {
             console.log('uploaded image', result.name);
+            count++
+            captureEventImage();
             return response;
         }
     });
@@ -30,11 +32,7 @@ const captureEventImage = () => {
     let imgName = `cap-${Date.now()}`;
     cam.takeImage().then((img) => {
         console.log('I am starting to upload an image');
-        uploadImage(img, imgName).then((res) => {
-            console.log('I think I am done uploading ' + res);
-            count++
-            captureEventImage();
-        }).catch(err => { console.log('error occured while uploading the image. ! ' + err); });
+        uploadImage(img, imgName);
     }).catch(err => { console.log('error occured while taking an image. ' + err); })
 
 };

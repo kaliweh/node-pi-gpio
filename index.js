@@ -9,7 +9,7 @@ pir.watch(async (err, value) => {
     if (value == 1) {
         let imgName = '';
         let img = '';
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 3; i++) {
             imgName = `cap-${Date.now()}.jpeg`;
             try {
                 img = await cam.takeImage();
@@ -31,3 +31,5 @@ pir.watch(async (err, value) => {
         console.log('pir is 0');
     }
 });
+
+// TODO: catch all and restart in case of an error!.

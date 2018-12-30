@@ -29,11 +29,11 @@ const captureEventImage = ()=> {
     let imgName = `cap-${Date.now()}`;
     cam.takeImage().then((img) => {
         console.log('I am starting to upload an image');
-        uploadImage(img, imgName);
-    }).then((res) => {
-        console.log('I think I am done uploading '+ res);
-        count++
-        captureEventImage();
+        uploadImage(img, imgName).then((res) => {
+            console.log('I think I am done uploading '+ res);
+            count++
+            captureEventImage();
+        }).catch(err => { console.log('error occured while uploading the image. ! '+ err); });
     }).catch(err => { console.log('error occured while taking an image. '+ err); })
 
 };

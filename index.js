@@ -6,7 +6,7 @@ const Gpio = require('onoff').Gpio; // Gpio class
 const pir = new Gpio(17, 'in', 'both');    // Export GPIO17 as both
 const MAX_EVENT_CAPTURE_COUNT = 2;
 
-console.log('['+Date.now.toLocaleString() + '] starting to listen to sink events.....'); 
+console.log('['+new Date().toLocaleString() + '] starting to listen to sink events.....'); 
 
 const uploadImage = (img, imgName) => {
 
@@ -15,7 +15,7 @@ const uploadImage = (img, imgName) => {
             console.log('connection error... image will be lost!:', error);
         }
         else {
-            console.log('['+Date.now.toLocaleString() + '] '+result.name);
+            console.log('['+ new Date().toLocaleString() + '] '+result.name);
             count++
             captureEventImage();
             return response;

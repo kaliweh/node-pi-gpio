@@ -6,6 +6,7 @@ const Gpio = require('onoff').Gpio; // Gpio class
 const pir = new Gpio(17, 'in', 'both');    // Export GPIO17 as both
 const MAX_EVENT_CAPTURE_COUNT = 2;
 
+console.log('['+Date.now.toLocaleString() + '] starting to listen to sink events.....'); 
 
 const uploadImage = (img, imgName) => {
 
@@ -14,7 +15,7 @@ const uploadImage = (img, imgName) => {
             console.log('connection error... image will be lost!:', error);
         }
         else {
-            console.log('uploaded image', result.name);
+            console.log('['+Date.now.toLocaleString() + '] '+result.name);
             count++
             captureEventImage();
             return response;
@@ -25,43 +26,23 @@ const uploadImage = (img, imgName) => {
 let count = 0;
 
 const captureEventImage = () => {
-    console.log('captureEventImage called with count ' + count);
+   // console.log('captureEventImage called with count ' + count);
     if (count > MAX_EVENT_CAPTURE_COUNT) {
         return;
     }
     let imgName = `cap-${Date.now()}`;
     cam.takeImage().then((img) => {
-        console.log('I am starting to upload an image');
+   //     console.log('I am starting to upload an image');
         uploadImage(img, imgName);
     }).catch(err => { console.log('error occured while taking an image. ' + err); })
 
 };
 
-
-
 pir.watch((err, value) => {
     if (value == 1) {
-        //   let imgName = '';
         count = 0;
         captureEventImage();
-
-        // for (let i = 0; i < 3; i++) {
-        //     imgName = `cap-${Date.now()}.jpeg`;
-        //     cam.takeImage().then((img) => {
-        //         uploadImage(img, imgName);
-        //     }).catch(err => { console.log('error occured while taking an image.', err); })
-
-
-
-        //     // } catch (err) {
-        //     //     console.log('error occured while taking an image.', err);
-        //     //     continue;
-        //     // }
-
-        //  }
     } else {
-        console.log('pir is 0');
+        console.log('reset..');
     }
 });
-
-// TODO: catch all and restart in case of an error!.

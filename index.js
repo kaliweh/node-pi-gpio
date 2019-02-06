@@ -14,16 +14,16 @@ console.log('[' + new Date().toLocaleString() + '] starting to listen to sink ev
 const uploadImage = (img, imgName) => {
     blobService.createBlockBlobFromText('sink-images', imgName, img, function (error, result, response) {
         if (error != null) {
-            console.log('connection error... image will be lost!:', error);
+            console.log('[' + new Date().toLocaleString() + '] ' +'connection error... image will be lost!:', error);
         }
         else {
-            console.log('[' + new Date().toLocaleString() + '] ' + result.name);
+          //  console.log('[' + new Date().toLocaleString() + '] ' + result.name);
             count++;
             // send the event message
             const encodedMessage = encoder.encode(imgName);
             queueService.createMessage('sink-event-queue', encodedMessage, function (QueueError) {
                 if (QueueError != null) {
-                    console.log('Error occured while sending event queue message, this means the event will not be proccesd! event [' + imgName + ']', QueueError);
+                    console.log('[' + new Date().toLocaleString() + '] ' +'Error occured while sending event queue message, this means the event will not be proccesd! event [' + imgName + ']', QueueError);
                 }
             });
             captureEventImage();
@@ -43,7 +43,7 @@ const captureEventImage = () => {
     cam.takeImage().then((img) => {
         //     console.log('I am starting to upload an image');
         uploadImage(img, imgName);
-    }).catch(err => { console.log('error occured while taking an image. ' + err); })
+    }).catch(err => { console.log('[' + new Date().toLocaleString() + '] ' +'error occured while taking an image. ' + err); })
 
 };
 
@@ -52,6 +52,6 @@ pir.watch((err, value) => {
         count = 0;
         captureEventImage();
     } else {
-        console.log('reset..');
+        //console.log('reset..');
     }
 });

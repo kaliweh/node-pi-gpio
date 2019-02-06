@@ -3,6 +3,8 @@ const cam = new StillCamera({ width: 800, height: 600 });
 const storage = require('azure-storage');
 const blobService = storage.createBlobService();
 const queueService = storage.createQueueService();
+queueService.messageEncoder = new storage.QueueMessageEncoder.TextBase64QueueMessageEncoder();
+const encoder = new  storage.QueueMessageEncoder.TextBase64QueueMessageEncoder();
 const Gpio = require('onoff').Gpio; // Gpio class
 const pir = new Gpio(17, 'in', 'both');    // Export GPIO17 as both
 const MAX_EVENT_CAPTURE_COUNT = 2;
@@ -16,8 +18,10 @@ const uploadImage = (img, imgName) => {
         }
         else {
             console.log('[' + new Date().toLocaleString() + '] ' + result.name);
-            count++
-            queueService.createMessage('sink-event-queue', imgName, function (QueueError) {
+            count++;
+            // send the event message
+            const encodedMessage = encoder.encode(imgName);
+            queueService.createMessage('sink-event-queue', encodedMessage, function (QueueError) {
                 if (QueueError != null) {
                     console.log('Error occured while sending event queue message, this means the event will not be proccesd! event [' + imgName + ']', QueueError);
                 }
